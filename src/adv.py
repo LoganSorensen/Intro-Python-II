@@ -4,11 +4,11 @@ from item import Item
 
 
 item = {
-    'book': Item('book', "The cover reads: Goodnight Moon"),
-    'sword': Item('sword', "desc"),
-    'rock': Item('rock', "desc"),
-    'hat': Item('hat', "A sweet hat"),
-    'coins': Item('coins', "desc"),
+    'book': Item('book', "The cover reads, 'Goodnight Moon'."),
+    'sword': Item('sword', "You grabbed it by the blade for some reason..."),
+    'rock': Item('rock', "I mean, I guess you can have it if you really want it."),
+    'hat': Item('hat', "It's a yankee with no brim!"),
+    'coins': Item('coins', "Hang on, didn't the room description say that there was no treasure? Where on earth are you getting these?"),
 }
 
 # Declare all the rooms
@@ -102,9 +102,12 @@ while True:
             #     print("\nYou can't move in that direction\n")
             #     continue
             # else:
-            player.current_room = player.move_to(
-                selection, player.current_room)
-            room_text()
+            if player.move_to(selection, player.current_room) == None:
+                print("\nThere's nothing in that direction\n")
+            else:
+                player.current_room = player.move_to(
+                    selection, player.current_room)
+                room_text()
             # print(player.current_room.items)
             continue
         if selection in ['i', 'inv', 'inventory']:
@@ -127,7 +130,7 @@ while True:
             for i in player.current_room.items:
                 if obj in i.name:
                     player.current_room.remove_item(i)
-                    item[obj].on_take(i.name)
+                    item[obj].on_take(i)
                     player.add_item(i)
                 else:
                     print("\nThat item doesn't exist.\n")
@@ -136,7 +139,7 @@ while True:
                 # print(i.name)
                 if obj in i.name:
                     player.remove_item(i)
-                    item[obj].on_drop(i.name)
+                    item[obj].on_drop(i)
                     player.current_room.add_item(i)
                 else:
                     print("You don't have that item in your inventory.")

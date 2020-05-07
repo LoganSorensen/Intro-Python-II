@@ -16,7 +16,7 @@ class Player():
 
     def list_items(self):
         if len(self.inventory) == 0:
-            return "Empty"
+            print("Empty")
         else:
             for i in self.inventory:
                 print(i.name)
